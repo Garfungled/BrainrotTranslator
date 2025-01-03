@@ -19,8 +19,8 @@ public class DataManager {
    // Returns all the values from the CSV in one long string (with no duplicates)
    // output: "value1,value2,value3,..."
    public static String getAllValues() {
-       String total = "";
-       try {
+        String total = "";
+        try {
             Scanner csvScanner = new Scanner(new File(csvFileName));
             while(csvScanner.hasNextLine()) {
                 String currentLine = csvScanner.nextLine();
@@ -33,7 +33,41 @@ public class DataManager {
         }
       
         return clearDuplicates(total);
-   }
+    }
+
+    public static String getAllKeys() {
+        String total = "";
+        try {
+            Scanner csvScanner = new Scanner(new File(csvFileName));
+            while(csvScanner.hasNextLine()) {
+                String currentLine = csvScanner.nextLine();
+                total += currentLine.substring(currentLine.indexOf(','), currentLine.indexOf(',', currentLine.indexOf(',') + 1) + 1) + ",";
+            }
+            csvScanner.close();
+        } catch (Exception e) {
+            System.out.println("Error reading CSV");
+            System.out.println(e);
+        }
+      
+        return total;
+    }
+
+    public static String getAllWeights() {
+        String total = "";
+        try {
+            Scanner csvScanner = new Scanner(new File(csvFileName));
+            while(csvScanner.hasNextLine()) {
+                String currentLine = csvScanner.nextLine();
+                total += currentLine.substring(0, currentLine.indexOf(',')) + ",";
+            }
+            csvScanner.close();
+        } catch (Exception e) {
+            System.out.println("Error reading CSV");
+            System.out.println(e);
+        }
+      
+        return total;
+    }
 
 
    // input: "value1,value2,value3,...", output is the same
