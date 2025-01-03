@@ -32,7 +32,7 @@ public class DataManager {
             System.out.println(e);
         }
       
-        return clearDuplicates(total).substring(0, total.length() - 1);
+        return clearDuplicates(total);
    }
 
 
