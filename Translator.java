@@ -16,6 +16,7 @@ import java.io.IOException;
         valuesScanner.close();
 
         String result = consoleInput;
+
         int currentCommaIndex = values.indexOf(',');
         int lastCommaIndex = 0;
         while(currentCommaIndex != -1) {
