@@ -15,10 +15,49 @@ public class DataManager {
         fileWriter.close();
     }
 
+    public static String getKeysFromValue(String value) {
+        String total = "";
+        try {
+            Scanner csvScanner = new Scanner(new File(csvFileName));
+            while(csvScanner.hasNextLine()) {
+                String currentLine = csvScanner.nextLine();
+                if (listContains(currentLine, value)) {
+                    int indexOfFirstComma = currentLine.indexOf(",");
+                    int indexOfSecondComma = currentLine.indexOf(",", indexOfFirstComma + 1);
+                    total += currentLine.substring(indexOfFirstComma + 1, indexOfSecondComma) + ",";
+                }
+            }
+            csvScanner.close();
+        } catch (Exception e) {
+            System.out.println("Error reading CSV");
+            System.out.println(e);
+        }
 
-   // Returns all the values from the CSV in one long string (with no duplicates)
-   // output: "value1,value2,value3,..."
-   public static String getAllValues() {
+        return total;
+    }
+
+    public static String getWeightsFromValue(String value) {
+        String total = "";
+        try {
+            Scanner csvScanner = new Scanner(new File(csvFileName));
+            while(csvScanner.hasNextLine()) {
+                String currentLine = csvScanner.nextLine();
+                if (listContains(currentLine, value)) {
+                    total += currentLine.substring(0, currentLine.indexOf(",")) + ",";
+                }
+            }
+            csvScanner.close();
+        } catch (Exception e) {
+            System.out.println("Error reading CSV");
+            System.out.println(e);
+        }
+
+        return total;
+    }
+
+    // Returns all the values from the CSV in one long string (with no duplicates)
+    // output: "value1,value2,value3,..."
+    public static String getAllValues() {
         String total = "";
         try {
             Scanner csvScanner = new Scanner(new File(csvFileName));
@@ -77,8 +116,7 @@ public class DataManager {
         int currentCommaIndex = n.indexOf(',');
         int lastCommaIndex = 0;
         while(currentCommaIndex != -1) {
-            String currentValue = n.substring(lastCommaIndex, currentCommaIndex);
-            currentValue =  currentValue.replace(",", "");
+            String currentValue = n.substring(lastCommaIndex, currentCommaIndex).replace(",", "");
 
             if (!result.contains(currentValue)) {
                 result += currentValue + ",";
@@ -89,6 +127,60 @@ public class DataManager {
         }
 
         return result;
+    }
+
+    public static int getWeightSum(String weights) {
+        int totalWeights = 0;
+
+        int currentCommaIndex = weights.indexOf(',');
+        int lastCommaIndex = 0;
+        while(currentCommaIndex != -1) {
+            String currentWeight = weights.substring(lastCommaIndex, currentCommaIndex).replace(",", "");
+
+            totalWeights += Integer.parseInt(currentWeight);
+
+            lastCommaIndex = currentCommaIndex;
+            currentCommaIndex = weights.indexOf(',', currentCommaIndex + 1);
+        }
+
+        return totalWeights;
+    }
+
+    // Takes a normal sentence and turns it into a string list: "word1,word2,word3,...,"
+    // e.x. n = "Hi my name is soandso." -> "hi,my,name,is,soandso,"
+    public static String stringToList(String n) {
+        return n.toLowerCase().replace(",", "").replace(' ', ',') + ',';
+    }
+    
+    // Given a string list n with delimiters, find the item at index i
+    // e.x., n = "item1,item2,item3," if ',' is the delimiter, item2 is at index 1
+    public static String itemAtIndex(String n, int index) {
+        int currCommaIndex = n.indexOf(',');
+        int lastCommaIndex = 0;
+        for(int i = 0; i < index; i++) {
+            lastCommaIndex = currCommaIndex;
+            currCommaIndex = n.indexOf(',', currCommaIndex + 1);
+        }
+        return n.substring(lastCommaIndex, currCommaIndex).replace(",", "");
+    }
+
+    // Since we don't want to use .contains
+    // e.x. "bro" is in "brought" but "bro" and "brought" are not the same
+    public static boolean listContains(String n, String other) {
+        int currentCommaIndex = n.indexOf(',');
+        int lastCommaIndex = 0;
+        while(currentCommaIndex != -1) {
+            String currentItem = n.substring(lastCommaIndex, currentCommaIndex).replace(",", "");
+
+            if (currentItem.equals(other)) {
+                return true;
+            }
+
+            lastCommaIndex = currentCommaIndex;
+            currentCommaIndex = n.indexOf(',', currentCommaIndex + 1);
+        }
+
+        return false;
     }
 
     public static void main(String[] args) throws IOException {
