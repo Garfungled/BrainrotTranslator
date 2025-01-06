@@ -118,7 +118,7 @@ public class DataManager {
         while(currentCommaIndex != -1) {
             String currentValue = n.substring(lastCommaIndex, currentCommaIndex).replace(",", "");
 
-            if (!result.contains(currentValue)) {
+            if (!listContains(result, currentValue)) {
                 result += currentValue + ",";
             }
 
