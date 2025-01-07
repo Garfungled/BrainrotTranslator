@@ -3,7 +3,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-    public class Translator {
+public class Translator {
     public static void main(String[] args) throws IOException{
         // User input
         System.out.println("Enter a string you want to be brainrotted: ");
