@@ -1,12 +1,14 @@
-import java.io.File;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Scanner;
 import java.io.FileWriter;
-import java.io.IOException;
 
 
 public class DataManager {
-    public static String csvFileName = "CSV/main.csv";
-    public static String valuesFileName = "CSV/values.txt";
+    public static String csvFileName = "main.txt";
+    public static String valuesFileName = "values.txt";
+    public static String processedFileName = "brainrot.txt";
 
 
     public static void updateValues() throws IOException {
@@ -18,7 +20,7 @@ public class DataManager {
     public static String getKeysFromValue(String value) {
         String total = "";
         try {
-            Scanner csvScanner = new Scanner(new File(csvFileName));
+            Scanner csvScanner = new Scanner(new File(processedFileName));
             while(csvScanner.hasNextLine()) {
                 String currentLine = csvScanner.nextLine();
                 if (listContains(currentLine, value)) {
@@ -39,7 +41,7 @@ public class DataManager {
     public static String getWeightsFromValue(String value) {
         String total = "";
         try {
-            Scanner csvScanner = new Scanner(new File(csvFileName));
+            Scanner csvScanner = new Scanner(new File(processedFileName));
             while(csvScanner.hasNextLine()) {
                 String currentLine = csvScanner.nextLine();
                 if (listContains(currentLine, value)) {
@@ -60,7 +62,7 @@ public class DataManager {
     public static String getAllValues() {
         String total = "";
         try {
-            Scanner csvScanner = new Scanner(new File(csvFileName));
+            Scanner csvScanner = new Scanner(new File(processedFileName));
             while(csvScanner.hasNextLine()) {
                 String currentLine = csvScanner.nextLine();
                 total += currentLine.substring(currentLine.indexOf(',', currentLine.indexOf(',') + 1) + 1) + ",";
@@ -77,7 +79,7 @@ public class DataManager {
     public static String getAllKeys() {
         String total = "";
         try {
-            Scanner csvScanner = new Scanner(new File(csvFileName));
+            Scanner csvScanner = new Scanner(new File(processedFileName));
             while(csvScanner.hasNextLine()) {
                 String currentLine = csvScanner.nextLine();
                 total += currentLine.substring(currentLine.indexOf(','), currentLine.indexOf(',', currentLine.indexOf(',') + 1) + 1) + ",";
@@ -94,7 +96,7 @@ public class DataManager {
     public static String getAllWeights() {
         String total = "";
         try {
-            Scanner csvScanner = new Scanner(new File(csvFileName));
+            Scanner csvScanner = new Scanner(new File(processedFileName));
             while(csvScanner.hasNextLine()) {
                 String currentLine = csvScanner.nextLine();
                 total += currentLine.substring(0, currentLine.indexOf(',')) + ",";
@@ -183,7 +185,85 @@ public class DataManager {
         return false;
     }
 
+    public static void updateFile() {
+        String fileURL = "https://docs.google.com/spreadsheets/d/1wXt3BZlrV8dCR_GeXwsCgYEyPFZaEsNBSJPdGWTs8Rg/gviz/tq?tqx=out:csv&sheet=Slang-Term_Common-Substitute";
+        String saveFileName = "main.txt";
+
+        String packagePath = System.getProperty("user.dir"); // Replace with your package path
+        String saveFilePath = packagePath + "/" + saveFileName;
+
+        try {
+            File existingFile = new File(saveFilePath);
+            if (existingFile.exists()) {
+                if (existingFile.delete()) {
+                    System.out.println("Deleted existing file: " + saveFilePath);
+                } else {
+                    System.out.println("Failed to delete existing file: " + saveFilePath);
+                    return;
+                }
+            }
+
+            URL url = new URL(fileURL);
+            HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+
+            // check http response code
+            int responseCode = httpConnection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = new BufferedInputStream(httpConnection.getInputStream());
+                FileOutputStream outputStream = new FileOutputStream(saveFilePath);
+
+                // buffer for reading and writing
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+
+                // close streams
+                outputStream.close();
+                inputStream.close();
+
+                System.out.println("Downloaded new file: " + saveFilePath);
+            } else {
+                System.out.println("No file to download. Server replied with response code: " + responseCode);
+            }
+
+            // disconnect
+            httpConnection.disconnect();
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+
+    public static void processFile() {
+        try {
+
+            Scanner csvScanner = new Scanner(new File(csvFileName));
+
+            FileWriter txtWriter = new FileWriter(processedFileName);
+
+            while (csvScanner.hasNextLine()) {
+                String currentLine = csvScanner.nextLine();
+                currentLine = currentLine.replaceAll("\"\",", "");
+                currentLine = currentLine.replaceAll("\"", "");
+                currentLine = currentLine.toLowerCase();
+                txtWriter.write(currentLine);
+                txtWriter.write(System.lineSeparator());
+            }
+
+            csvScanner.close();
+            txtWriter.close();
+
+            System.out.println("Processing complete. Output saved to: " + processedFileName);
+        } catch (IOException e) {
+            System.out.println("Error processing CSV");
+        }
+    }
+
     public static void main(String[] args) throws IOException {
+        updateFile();
+        processFile();
         updateValues();
     }
 }
