@@ -16,7 +16,7 @@ public class Translator {
             valuesScanner = new Scanner(new File(DataManager.valuesFileName));
 
             System.out.println("Enter any type or amount of text that you'd like to be brainrotted: ");
-            String consoleInput = consoleScanner.nextLine();
+            String consoleInput = consoleScanner.nextLine().toLowerCase();
             String values = valuesScanner.nextLine();
             String result = consoleInput;
 
@@ -41,10 +41,10 @@ public class Translator {
             System.out.println("Brainrot {" + numChanges + "}:\n" + result);
 
             System.out.println("\nWould you like to enter another string? (y/n): ");
-            String response = consoleScanner.nextLine();
+            String response = consoleScanner.nextLine().toLowerCase();
             while(!(response.equals("y") || response.equals("n"))) {
                 System.out.println("\nPlease enter (y) or (n)");
-                response = consoleScanner.nextLine();
+                response = consoleScanner.nextLine().toLowerCase();
             }
 
             running = response.equals("y");
