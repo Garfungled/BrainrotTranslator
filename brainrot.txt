@@ -49,7 +49,7 @@
 20,mogging,looking better than someone,outperforming,outshining,surpassing,
 20,npc,thoughtless person,background character,person,
 20,ohio,weird place,strange,bizarre,
-20,opp,enemy,opposition,rival, ,
+20,opp,enemy,opposition,rival,
 20,owned,defeated,dominated,destroyed,beat,
 20,period,that's final,no debate,yeah,
 20,pluh,conversation stopper,awkward silence,
