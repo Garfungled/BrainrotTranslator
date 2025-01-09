@@ -1,39 +1,55 @@
-import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 
 public class Translator {
     public static void main(String[] args) throws IOException{
-        // User input
-        System.out.println("Enter a string you want to be brainrotted: ");
-        Scanner consoleScanner = new Scanner(System.in);
-        String consoleInput = consoleScanner.nextLine();
-        consoleScanner.close();
+        Scanner consoleScanner;
+        Scanner valuesScanner;
 
-        Scanner valuesScanner = new Scanner(new File(DataManager.valuesFileName));
-        String values = valuesScanner.nextLine();
-        valuesScanner.close();
+        boolean running = true;
 
-        String result = consoleInput;
+        while(running) {
+            // User input
+            consoleScanner = new Scanner(System.in);
+            valuesScanner = new Scanner(new File(DataManager.valuesFileName));
 
-        int currentCommaIndex = values.indexOf(',');
-        int lastCommaIndex = 0;
-        while(currentCommaIndex != -1) {
-            String currentValue = values.substring(lastCommaIndex, currentCommaIndex).replace(",", "");
+            System.out.println("Enter any type or amount of text that you'd like to be brainrotted: ");
+            String consoleInput = consoleScanner.nextLine().toLowerCase();
+            String values = valuesScanner.nextLine();
+            String result = consoleInput;
 
-            // Logic for comparing, replacing, etc.
-            if (consoleInput.contains(currentValue)) {
-                String keyMatches = DataManager.getKeysFromValue(currentValue);
-                String weightMatches = DataManager.getWeightsFromValue(currentValue);
-                result = result.replace(currentValue, weightedStringChoice(keyMatches, weightMatches));
+            int numChanges = -1;
+            int currentCommaIndex = values.indexOf(',');
+            int lastCommaIndex = 0;
+            while(currentCommaIndex != -1) {
+                String currentValue = values.substring(lastCommaIndex, currentCommaIndex).replace(",", "");
+
+                // Logic for comparing, replacing, etc.
+                if (consoleInput.contains(currentValue)) {
+                    String keyMatches = DataManager.getKeysFromValue(currentValue);
+                    String weightMatches = DataManager.getWeightsFromValue(currentValue);
+                    result = result.replace(currentValue, weightedStringChoice(keyMatches, weightMatches));
+                    numChanges++;
+                }
+
+                lastCommaIndex = currentCommaIndex;
+                currentCommaIndex = values.indexOf(',', currentCommaIndex + 1);
             }
 
-            lastCommaIndex = currentCommaIndex;
-            currentCommaIndex = values.indexOf(',', currentCommaIndex + 1);
-        }
+            System.out.println("Brainrot {" + numChanges + "}:\n" + result);
 
-        System.out.println(result);
+            System.out.println("\nWould you like to enter another string? (y/n): ");
+            String response = consoleScanner.nextLine().toLowerCase();
+            while(!(response.equals("y") || response.equals("n"))) {
+                System.out.println("\nPlease enter (y) or (n)");
+                response = consoleScanner.nextLine().toLowerCase();
+            }
+
+            running = response.equals("y");
+            System.out.println();
+        }
     }
 
     // keys: "key1,key2,...,", weights: "weight1,weight2,...,"
