@@ -9,6 +9,7 @@ public class Translator {
         Scanner valuesScanner;
 
         boolean running = true;
+        boolean debug = true;
 
         while(running) {
             // User input
@@ -20,7 +21,10 @@ public class Translator {
             String values = valuesScanner.nextLine();
             String result = consoleInput;
 
+            // Debug Info
+            String wordsChanged = "";
             int numChanges = -1;
+
             int currentCommaIndex = values.indexOf(',');
             int lastCommaIndex = 0;
             while(currentCommaIndex != -1) {
@@ -31,14 +35,23 @@ public class Translator {
                     String keyMatches = DataManager.getKeysFromValue(currentValue);
                     String weightMatches = DataManager.getWeightsFromValue(currentValue);
                     result = result.replace(currentValue, weightedStringChoice(keyMatches, weightMatches));
+
+                    // Debug Info
                     numChanges++;
+                    wordsChanged += "\t" + currentValue + " -> " + result + "\n";
                 }
 
                 lastCommaIndex = currentCommaIndex;
                 currentCommaIndex = values.indexOf(',', currentCommaIndex + 1);
             }
 
-            System.out.println("Brainrot {" + numChanges + "}:\n" + result);
+            System.out.println("Brainrot:\n" + result);
+
+            if (debug) {
+                System.out.println("Debug info");
+                System.out.println("\tNumber of Words changed: " + numChanges);
+                System.out.println("\tProcess: \n" + wordsChanged);
+            }
 
             System.out.println("\nWould you like to enter another string? (y/n): ");
             String response = consoleScanner.nextLine().toLowerCase();
