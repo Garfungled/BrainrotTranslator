@@ -250,7 +250,9 @@ public class DataManager {
                 currentLine = currentLine.replaceAll(", ,", ",");
                 currentLine = currentLine.toLowerCase();
                 txtWriter.write(currentLine);
-                txtWriter.write(System.lineSeparator());
+                if (csvScanner.hasNextLine()) {
+                    txtWriter.write(System.lineSeparator());
+                }
             }
 
             csvScanner.close();

@@ -17,7 +17,7 @@
 50,fanum taxed,taxed,took food,stole food,
 50,no diddy,seriously,no lie,for real,honestly,truth,
 40,caught in 4k,caught red-handed,exposed,brought to light,
-40,crash out,make a reckless decision,fall asleep,go crazy,go insane,to breakdown ,to have a meltdown,have a breakdown,
+40,crash out,make a reckless decision,fall asleep,go crazy,go insane,to breakdown,to have a meltdown,have a breakdown,
 40,fire,good,cool,lit,amazing,great,hot,awesome,cool,
 40,flop,fail,underperform,bomb,
 40,highkey,openly,obviously,clearly,boldly,loudly,
