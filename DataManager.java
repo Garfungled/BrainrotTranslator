@@ -247,6 +247,7 @@ public class DataManager {
                 String currentLine = csvScanner.nextLine();
                 currentLine = currentLine.replaceAll("\"\",", "");
                 currentLine = currentLine.replaceAll("\"", "");
+                currentLine = currentLine.replaceAll(", ,", ",");
                 currentLine = currentLine.toLowerCase();
                 txtWriter.write(currentLine);
                 txtWriter.write(System.lineSeparator());

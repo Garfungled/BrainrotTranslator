@@ -74,7 +74,7 @@ public class Translator {
             currentCommaIndex = weights.indexOf(',', currentCommaIndex + 1);
             i += 1;
         }
-        
+
         return "";
     }
 }
