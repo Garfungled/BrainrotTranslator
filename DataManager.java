@@ -2,7 +2,6 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-import java.io.FileWriter;
 
 
 public class DataManager {
@@ -203,6 +202,7 @@ public class DataManager {
                 }
             }
 
+            @SuppressWarnings("deprecation")
             URL url = new URL(fileURL);
             HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
 
