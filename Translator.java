@@ -65,6 +65,16 @@ public class Translator {
         }
     }
 
+    // replaces all ending vowels with 'uzz'
+    public static String huzzify(String n) {
+        String vowels = "a,e,i,o,u,";
+        if (vowels.contains(n.charAt(n.length() - 1) + "")) {
+            n = n.substring(0, n.length() - 1) + "uzz";
+        }
+
+        return n;
+    }
+
     // keys: "key1,key2,...,", weights: "weight1,weight2,...,"
     public static String weightedStringChoice(String keys, String weights) {
         int totalWeights = DataManager.getWeightSum(weights);
