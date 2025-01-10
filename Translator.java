@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 public class Translator {
     public static void main(String[] args) throws IOException{
-        Scanner consoleScanner;
-        Scanner valuesScanner;
+        Scanner consoleScanner = null;
+        Scanner valuesScanner = null;
 
         boolean running = true;
         boolean debug = true;
@@ -25,6 +25,7 @@ public class Translator {
             String wordsChanged = "";
             int numChanges = -1;
 
+            // Translation
             int currentCommaIndex = values.indexOf(',');
             int lastCommaIndex = 0;
             while(currentCommaIndex != -1) {
@@ -45,14 +46,15 @@ public class Translator {
                 currentCommaIndex = values.indexOf(',', currentCommaIndex + 1);
             }
 
+            // Final result
             System.out.println("Brainrot:\n" + result);
-
             if (debug) {
                 System.out.println("Debug info");
                 System.out.println("\tNumber of Words changed: " + numChanges);
                 System.out.println("\tProcess: \n" + wordsChanged);
             }
 
+            // Prompt for another translation
             System.out.println("\nWould you like to enter another string? (y/n): ");
             String response = consoleScanner.nextLine().toLowerCase();
             while(!(response.equals("y") || response.equals("n"))) {
@@ -63,6 +65,28 @@ public class Translator {
             running = response.equals("y");
             System.out.println();
         }
+
+        // Prompt for contribution to dataset
+        System.out.println("Would you like to contribute to this project? (y/n)");
+        consoleScanner = new Scanner(System.in);
+        String response = consoleScanner.nextLine().toLowerCase();
+        while(!(response.equals("y") || response.equals("n"))) {
+            System.out.println("\nPlease enter (y) or (n)");
+            response = consoleScanner.nextLine().toLowerCase();
+        }
+
+        if (response.equals("y")) {
+            System.out.println("\nIf you think we missed some brainrot terms or have some possible synonyms that could be replaced with brainrot terms, check out our crowd sourced google spreadsheet where you can freely contribute to our project. Here's how to do so (information is also on the README):");
+            System.out.println("\t1. Go to https://docs.google.com/spreadsheets/d/1wXt3BZlrV8dCR_GeXwsCgYEyPFZaEsNBSJPdGWTs8Rg/edit?gid=453750728#gid=453750728");
+            System.out.println("\t2. Scroll to the bottom and add a row");
+            System.out.println("\t3. First column is for the weight (think of it as how often it should replace), second is for the brainrot term, and all other proceeding columns are for any synonyms (word replacements) you can think of for the brainrot term (see README for what should and shouldn't be added to the spreadsheet)");
+            System.out.println("\t4. Go back to this folder, run \'java DataManager.java\' to locally update your dataset, and enjoy!");
+            System.out.println("\nCheck out the github repo too!");
+            System.out.println("\thttps://github.com/Garfungled/BrainrotTranslator");
+        }
+
+        consoleScanner.close();
+        valuesScanner.close();
     }
 
     // replaces all ending vowels with 'uzz'
