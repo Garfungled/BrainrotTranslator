@@ -29,7 +29,11 @@ If you'd like to be a help to our project, you can contribute to the dataset! Do
 > [!CAUTION]
 > To avoid any erros, make sure each entry has **no preceeding or proceeding spaces**, **commas**, **negative numbers for weights (largest should be 100 but it makes no difference)**, or **anything else extraneous**. Each addition should be a simple alphanumeric entry. Also don't use capital letters, nothing will go wrong but everything is turned into lowercase anyway so it's futile. Oh, and this is a school project so keep things school appropriate thanks!
 
-4. To finalize your changes, run \'java DataManager.java\' to locally update your dataset.
+4. To finalize your changes, run 
+```
+java DataManager.java
+```
+to LOCALLY update your dataset.
 
 ## Usage
 
