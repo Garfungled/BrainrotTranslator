@@ -16,14 +16,14 @@ public class Translator {
             consoleScanner = new Scanner(System.in);
             valuesScanner = new Scanner(new File(DataManager.valuesFileName));
 
-            System.out.println("Enter any type or amount of text that you'd like to be brainrotted: ");
+            System.out.println("Enter any text that you'd like to be brainrotted: ");
             String consoleInput = consoleScanner.nextLine().toLowerCase();
             String values = valuesScanner.nextLine();
             String result = consoleInput;
 
             // Debug Info
             String wordsChanged = "";
-            int numChanges = -1;
+            int numChanges = 0;
 
             // Translation
             int currentCommaIndex = values.indexOf(',');
@@ -35,11 +35,16 @@ public class Translator {
                 if (consoleInput.contains(currentValue)) {
                     String keyMatches = DataManager.getKeysFromValue(currentValue);
                     String weightMatches = DataManager.getWeightsFromValue(currentValue);
-                    result = result.replace(currentValue, weightedStringChoice(keyMatches, weightMatches));
+                    String brainrot = weightedStringChoice(keyMatches, weightMatches);
+                    String newString = smartReplace(result, currentValue, brainrot);
 
                     // Debug Info
-                    numChanges++;
-                    wordsChanged += "\t" + currentValue + " -> " + result + "\n";
+                    if (!newString.equals(result)) {
+                        numChanges++;
+                        wordsChanged += "\t" + currentValue + " -> " + newString + "\n";
+                    }
+
+                    result = newString;
                 }
 
                 lastCommaIndex = currentCommaIndex;
@@ -47,9 +52,9 @@ public class Translator {
             }
 
             // Final result
-            System.out.println("Brainrot:\n" + result);
+            System.out.println("\nBrainrot:\n" + result);
             if (debug) {
-                System.out.println("Debug info");
+                System.out.println("\nDebug info");
                 System.out.println("\tNumber of Words changed: " + numChanges);
                 System.out.println("\tProcess: \n" + wordsChanged);
             }
@@ -87,6 +92,28 @@ public class Translator {
 
         consoleScanner.close();
         valuesScanner.close();
+    }
+
+    // Replace only whole words, i.e. not replacing "bro" in "brought"
+    public static String smartReplace(String n, String target, String replacement) {
+        n = DataManager.stringToList(n);
+        String result = "";
+
+        int currentCommaIndex = n.indexOf(',');
+        int lastCommaIndex = 0;
+        while(currentCommaIndex != -1) {
+            String currentWord = n.substring(lastCommaIndex, currentCommaIndex).replace(",", "");
+
+            if (DataManager.removePunctuation(currentWord).equals(target)) {
+                currentWord = replacement;
+            }
+            result += currentWord + " ";
+
+            lastCommaIndex = currentCommaIndex;
+            currentCommaIndex = n.indexOf(',', currentCommaIndex + 1);
+        }
+
+        return result;
     }
 
     // replaces all ending vowels with 'uzz'

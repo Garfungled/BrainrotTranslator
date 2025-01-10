@@ -152,6 +152,19 @@ public class DataManager {
     public static String stringToList(String n) {
         return n.toLowerCase().replace(",", "").replace(' ', ',') + ',';
     }
+
+    // Taken from pickcode for consumerReview
+    public static String removePunctuation(String n) {
+        while(n.length() > 0 && !Character.isAlphabetic(n.charAt(0))) {
+            n = n.substring(1);
+        }
+
+        while(n.length() > 0 && !Character.isAlphabetic(n.charAt(n.length()-1))) {
+            n = n.substring(0, n.length()-1);
+        }
+        
+        return n;
+    }
     
     // Given a string list n with delimiters, find the item at index i
     // e.x., n = "item1,item2,item3," if ',' is the delimiter, item2 is at index 1

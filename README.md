@@ -2,9 +2,9 @@ This is a String Project for my AP Java class that I'm working on with a friend.
 
 ## TODO
 - [X] Create a MVP (minimum viable product)
+- [X] Make a better string replace to avoid replacing words in other words, e.x. "bro" in "brought"
 - [ ] Clean up code
 - [ ] Add some sort of object oriented-ness
-- [ ] Make a better string replace to avoid replacing words in other words, e.x. "bro" in "brought"
 - [ ] Make it so that any word that isn't converted changes all vowels to "uzz"
 
 
