@@ -42,13 +42,3 @@ To run, call:
 ```
 java Translator.java
 ```
-
-If you update the ```main.csv``` file, update the program by calling:
-
-```
-java DataManager.java
-```
-then calling:
-```
-java Translator.javas
-```
