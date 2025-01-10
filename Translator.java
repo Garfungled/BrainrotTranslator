@@ -9,10 +9,14 @@ public class Translator {
         Scanner valuesScanner = null;
 
         boolean running = true;
-        boolean debug = true;
+        boolean debug = false; //TODO You can change this boolean to get a better idea of what the code actually doing.
+
+        DataManager.updateFile();
+        DataManager.processFile();
+        DataManager.updateValues();
 
         while(running) {
-            // User input
+            // User inputI
             consoleScanner = new Scanner(System.in);
             valuesScanner = new Scanner(new File(DataManager.valuesFileName));
 
