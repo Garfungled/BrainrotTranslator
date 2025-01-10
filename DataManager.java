@@ -1,3 +1,8 @@
+//Raahil Parikh and Zachary Medjamia
+//January 10th 2025
+//Brainrot Translator for String Project - converts normal grammar and words to genZ/alpha 'brainrot' slang
+//AP Java D Block - Dr. Bezaire
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -200,8 +205,6 @@ public class DataManager {
     public static void updateFile() {
         String fileURL = "https://docs.google.com/spreadsheets/d/1wXt3BZlrV8dCR_GeXwsCgYEyPFZaEsNBSJPdGWTs8Rg/gviz/tq?tqx=out:csv&sheet=Slang-Term_Common-Substitute";
 
-        String packagePath = System.getProperty("user.dir"); // Replace with your package path
-
         try {
             File existingFile = new File(csvFileName);
             if (existingFile.exists()) {
@@ -220,21 +223,15 @@ public class DataManager {
             // check http response code
             int responseCode = httpConnection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                InputStream inputStream = new BufferedInputStream(httpConnection.getInputStream());
-                FileOutputStream outputStream = new FileOutputStream(csvFileName);
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
+                     BufferedWriter writer = new BufferedWriter(new FileWriter(csvFileName))) {
 
-                // buffer for reading and writing
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        writer.write(line);
+                        writer.newLine();
+                    }
                 }
-
-                // close streams
-                outputStream.close();
-                inputStream.close();
-
                 System.out.println("Downloaded new file: " + csvFileName);
             } else {
                 System.out.println("No file to download. Server replied with response code: " + responseCode);
@@ -256,9 +253,9 @@ public class DataManager {
 
             while (csvScanner.hasNextLine()) {
                 String currentLine = csvScanner.nextLine();
-                currentLine = currentLine.replaceAll("\"\",", "");
-                currentLine = currentLine.replaceAll("\"", "");
-                currentLine = currentLine.replaceAll(", ,", ",");
+                currentLine = currentLine.replace("\"\",", "");
+                currentLine = currentLine.replace("\"", "");
+                currentLine = currentLine.replace(", ,", ",");
                 currentLine = currentLine.toLowerCase();
                 txtWriter.write(currentLine);
                 if (csvScanner.hasNextLine()) {

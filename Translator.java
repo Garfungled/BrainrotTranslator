@@ -1,3 +1,8 @@
+//Raahil Parikh and Zachary Medjamia
+//January 10th 2025
+//Brainrot Translator for String Project - converts normal grammar and words to genZ/alpha 'brainrot' slang
+//AP Java D Block - Dr. Bezaire
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
