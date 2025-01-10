@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 
 public class DataManager {
-    public static String csvFileName = "main.txt";
-    public static String valuesFileName = "values.txt";
-    public static String processedFileName = "brainrot.txt";
+    public static String csvFileName = "Data/main.txt";
+    public static String valuesFileName = "Data/values.txt";
+    public static String processedFileName = "Data/brainrot.txt";
 
 
     public static void updateValues() throws IOException {
